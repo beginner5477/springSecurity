@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans.xsd
+             http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security.xsd">
+             
+             <http auto-config="true" use-expressions="false">
+             <!-- 모든 접속자들??? -->
+             	<!-- <intercept-url pattern="/**" access="ROLE_USER"/> -->
+             <!-- 익명사용자 들어왓을떄 시큐리티 컨텍스트 컨테이너에 안들어왔을때?-->
+             	<logout logout-url="/logout" logout-success-url="/"/>
+             	<intercept-url pattern="/member/login" access="ROLE_ANNONYMOUS"/>
+             <!-- 관리자가 들어왓을떄? -->
+             	<intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
+             	<form-login
+             		username-parameter="mid"
+             		password-parameter="pwd"
+             		login-page="/member/login"
+             		default-target-url="/member/memberMain"
+             		authentication-failure-url="/member/login?fail=true"
+             	/>
+             </http>
+			 <authentication-manager>
+			 	<authentication-provider>
+			 		<user-service>
+			 			<user name="user" password="user" authorities="ROLE_USER"/>
+			 			<user name="atom" password="1234" authorities="ROLE_USER"/>
+			 			<user name="okm5477" password="ehdhks5477@" authorities="ROLE_USER"/>
+			 			<user name="admin" password="admin" authorities="ROLE_ADMIN"/>
+			 		</user-service>
+			 	</authentication-provider>
+			 </authentication-manager>
+</beans:beans>
